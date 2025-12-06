@@ -21,7 +21,26 @@ class LoginView(generics.GenericAPIView):
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        
+        if not serializer.is_valid():
+            # Extraire le premier message d'erreur pour un affichage plus clair
+            errors = serializer.errors
+            
+            # Déterminer le message principal
+            if 'email' in errors:
+                message = errors['email'][0] if isinstance(errors['email'], list) else errors['email']
+            elif 'password' in errors:
+                message = errors['password'][0] if isinstance(errors['password'], list) else errors['password']
+            elif 'non_field_errors' in errors:
+                message = errors['non_field_errors'][0] if isinstance(errors['non_field_errors'], list) else errors['non_field_errors']
+            else:
+                message = "Erreur de validation"
+            
+            return Response({
+                'error': message,
+                'details': errors
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
         user = serializer.validated_data
         refresh = RefreshToken.for_user(user)
         return Response({
@@ -35,14 +54,6 @@ class GoogleLoginView(generics.GenericAPIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request, *args, **kwargs):
-        """
-        Login avec Google OAuth token.
-        
-        Body JSON:
-        {
-            "token": "<google_id_token>"
-        }
-        """
         serializer = self.get_serializer(data=request.data)
         
         if not serializer.is_valid():
