@@ -3,6 +3,9 @@ from .security import sanitize_prompt
 from .models import Prompt
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.utils import timezone
+from datetime import timedelta
+from django.db.models import Count, Max
 import json
 import logging
 
@@ -24,6 +27,10 @@ def ai_prompt(request):
 
         # Nettoyage du prompt pour sécurité
         clean_text = sanitize_prompt(text)
+
+        # DEBUG: Vérifier l'authentification
+        logger.info(f"User authenticated: {request.user.is_authenticated}")
+        logger.info(f"User ID: {request.user.id if request.user.is_authenticated else 'None'}")
 
         # Création du prompt dans la base de données
         prompt = Prompt.objects.create(
@@ -56,9 +63,8 @@ def ai_prompt(request):
         return JsonResponse({"error": f"Erreur serveur: {str(e)}"}, status=500)
 
 
-
 def get_prompts_list(request):
-    """Récupère l'historique des conversations groupées par utilisateur"""
+    """Récupère l'historique de TOUTES les conversations groupées par utilisateur"""
     if request.method != "GET":
         return JsonResponse({"error": "Méthode non autorisée"}, status=405)
     
@@ -78,9 +84,7 @@ def get_prompts_list(request):
         
         for conv in conversations:
             user_id = conv['user']
-            if user_id is None:
-                continue
-                
+            
             # Récupérer les prompts de cet utilisateur
             user_prompts = Prompt.objects.filter(
                 user_id=user_id,
@@ -91,10 +95,13 @@ def get_prompts_list(request):
             try:
                 from django.contrib.auth import get_user_model
                 User = get_user_model()
-                user = User.objects.get(id=user_id)
-                username = user.username or user.email
+                if user_id:
+                    user = User.objects.get(id=user_id)
+                    username = user.username or user.email
+                else:
+                    username = "Utilisateur anonyme"
             except:
-                username = f"User {user_id}"
+                username = f"User {user_id}" if user_id else "Utilisateur anonyme"
             
             # Construire les détails de la conversation
             prompts_details = []
@@ -124,3 +131,4 @@ def get_prompts_list(request):
     except Exception as e:
         logger.error(f"Erreur get_prompts_list: {str(e)}", exc_info=True)
         return JsonResponse({"error": f"Erreur serveur: {str(e)}"}, status=500)
+
