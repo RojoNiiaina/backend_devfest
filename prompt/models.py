@@ -17,7 +17,7 @@ class Prompt(models.Model):
     type_functionality = models.CharField(
         max_length=2,
         choices=FUNCTIONALITY_CHOICES,
-        default='F2',
+        default='F1',
         help_text="F1 = sécurisation des prompts, F2 = analyse de code"
     )
 
