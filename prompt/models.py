@@ -11,7 +11,9 @@ class Prompt(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name='prompts'
+        related_name='prompts',
+        null=True,
+        blank=True
     )
 
     type_functionality = models.CharField(

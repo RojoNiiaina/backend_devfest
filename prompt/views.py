@@ -1,4 +1,4 @@
-from .ollama import ask_ollama
+from .gemini import ask_gemini
 from .security import sanitize_prompt
 from .models import Prompt
 from django.http import JsonResponse
@@ -17,13 +17,13 @@ def ai_prompt(request):
         clean_text = sanitize_prompt(text)
 
         prompt = Prompt.objects.create(
-            user=request.user,
+            user=request.user if request.user.is_authenticated else None,
             type_functionality=ftype,
             original_text=clean_text if ftype == "F1" else None,
             input_text=clean_text if ftype == "F2" else None
         )
 
-        result = ask_ollama(clean_text)
+        result = ask_gemini(clean_text)
 
         if ftype == "F1":
             prompt.secured_text = result
