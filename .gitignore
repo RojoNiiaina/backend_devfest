@@ -1,27 +1,23 @@
+# --- Environnement ---
 .env
 
+# --- Python cache ---
+__pycache__/
 *.pyc
+*.pyo
+*.pyd
 
-
-# --- Django Cache ---
-*/_pycache_/
-_pycache_/
-*.py[cod]
-
-# Django cache folder (si tu utilises FileBasedCache)
-cache/
+# --- Django cache ---
 */cache/
 
 # --- SQLite database ---
 db.sqlite3
 db.sqlite3-journal
 
-# --- Migrations compilées ---
-*.sqlite3
-
-# --- Django stuff ---
+# --- Django logs et fichiers temporaires ---
 *.log
 *.pot
-*.pyc
-*.pyo
 *.mo
+
+# --- Migrations compilées ou inutiles ---
+*.sqlite3
