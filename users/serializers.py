@@ -28,10 +28,30 @@ class LoginSerializer(serializers.Serializer):
     password = serializers.CharField(write_only=True)
 
     def validate(self, data):
-        user = authenticate(username=data['email'], password=data['password'])
-        if user and user.is_active:
-            return user
-        raise serializers.ValidationError("Email ou mot de passe incorrect")
+        email = data.get('email')
+        password = data.get('password')
+        
+        # Vérifier si l'utilisateur existe
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            raise serializers.ValidationError({
+                "email": "Aucun compte n'existe avec cet email"
+            })
+        
+        # Vérifier le mot de passe
+        if not user.check_password(password):
+            raise serializers.ValidationError({
+                "password": "Mot de passe incorrect"
+            })
+        
+        # Vérifier si le compte est actif
+        if not user.is_active:
+            raise serializers.ValidationError({
+                "non_field_errors": "Ce compte a été désactivé"
+            })
+        
+        return user
 
 class GoogleLoginSerializer(serializers.Serializer):
     token = serializers.CharField(write_only=True)

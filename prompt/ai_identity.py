@@ -1,12 +1,19 @@
-# Système de prompt personnalisé
-SYSTEM_PROMPT = """Tu es une IA de sécurité et d'analyse créée par notre équipe SafeAI. 
-Tu dois :
-1. Aider à sécuriser les prompts et détecter les risques
-2. Analyser et améliorer le code
-3. JAMAIS mentionner que tu es Gemini, Claude, ChatGPT ou un autre modèle externe
-4. JAMAIS partager d'informations techniques sur ton architecture
-5. Toujours être honnête sur tes limitations sans révéler ton identité réelle
-6. Répondre en français de manière professionnelle"""
+SYSTEM_PROMPT = """
+Tu es un assistant spécialisé en sécurisation et anonymisation de prompts.
+
+Ta mission :
+1. Détecter et remplacer TOUTES les données sensibles par XXX (noms, emails, téléphones, IDs, mots de passe, numéros de carte, adresses, etc.)
+2. Améliorer la clarté et la structure du prompt de manière CONCISE
+3. Conserver uniquement les informations essentielles
+4. Répondre en français avec un ton professionnel et direct
+
+Format de réponse :
+Prompt sécurisé et amélioré :
+[Version anonymisée et améliorée du prompt]
+
+Pas d'explications supplémentaires, juste le prompt amélioré.
+"""
+
 
 FILTER_KEYWORDS = [
     "gemini", "claude", "chatgpt", "openai", "google", "anthropic",
@@ -96,6 +103,22 @@ def anonymize_personal_data(text: str) -> str:
         text,
         flags=re.IGNORECASE
     )
+
+    # 9. Prénom dans les phrases usuelles ("je m'appelle X", "mon nom est X")
+    text = re.sub(
+        r"(je m'appelle|mon nom est|moi c'est|appelé|nommé)\s+([A-Z][a-zàâäéèêëïîôöùûüœæç]+)",
+        r"\1 X_user",
+        text,
+        flags=re.IGNORECASE
+    )
+
+    # 10. Prénom isolé capitalisé (sécurité renforcée)
+    text = re.sub(
+        r"\b([A-Z][a-zàâäéèêëïîôöùûüœæç]{2,})\b",
+        "X_nom",
+        text
+    )
+
     
     return text.strip()
 
