@@ -1,10 +1,14 @@
+# --- Environnement ---
 .env
 
+__pycache__/
 *.pyc
+
 
 
 # --- Django Cache ---
 */_pycache_/
+__pycache__/urls.cpython-313.pyc
 _pycache_/
 *.py[cod]
 
@@ -16,18 +20,7 @@ cache/
 db.sqlite3
 db.sqlite3-journal
 
-# --- Migrations compilées ---
-*.sqlite3
-
-# --- Django stuff ---
+# --- Django logs et fichiers temporaires ---
 *.log
 *.pot
-*.pyc
-*.pyo
 *.mo
-devfest/__pycache__/settings.cpython-313.pyc
-devfest/__pycache__/settings.cpython-313.pyc
-devfest/__pycache__/urls.cpython-313.pyc
-prompt/__pycache__/models.cpython-313.pyc
-prompt/__pycache__/models.cpython-313.pyc
-devfest/__pycache__/urls.cpython-313.pyc
