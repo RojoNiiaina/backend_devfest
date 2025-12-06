@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'users',
     'api',
     'prompt',
+    'code_analysis',
 
     # ✅ Allauth SEUL
     'django.contrib.sites',
