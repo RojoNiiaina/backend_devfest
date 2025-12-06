@@ -20,5 +20,6 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/users/', include('users.urls')),
+    path('ai_prompt/', views.ai_prompt, name='ai_prompt'),
     path('accounts/', include('allauth.urls')),
 ]
