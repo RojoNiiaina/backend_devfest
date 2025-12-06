@@ -7,9 +7,6 @@ class CodeAnalysisViewSet(viewsets.ModelViewSet):
     serializer_class = CodeAnalysisSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
 class ResultatViewSet(viewsets.ModelViewSet):
     queryset = Resultat.objects.all()
     serializer_class = ResultatSerializer
