@@ -25,3 +25,10 @@ db.sqlite3-journal
 *.pyc
 *.pyo
 *.mo
+devfest/__pycache__/settings.cpython-313.pyc
+devfest/__pycache__/settings.cpython-313.pyc
+devfest/__pycache__/urls.cpython-313.pyc
+prompt/__pycache__/models.cpython-313.pyc
+prompt/__pycache__/models.cpython-313.pyc
+devfest/__pycache__/urls.cpython-313.pyc
+devfest/__pycache__/urls.cpython-313.pyc
