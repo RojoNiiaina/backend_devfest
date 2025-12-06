@@ -1,13 +1,16 @@
 # --- Environnement ---
 .env
 
-# --- Python cache ---
-__pycache__/
 *.pyc
-*.pyo
-*.pyd
 
-# --- Django cache ---
+
+# --- Django Cache ---
+*/_pycache_/
+_pycache_/
+*.py[cod]
+
+# Django cache folder (si tu utilises FileBasedCache)
+cache/
 */cache/
 
 # --- SQLite database ---
