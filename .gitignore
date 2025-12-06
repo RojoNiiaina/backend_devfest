@@ -1,1 +1,27 @@
 .env
+
+*.pyc
+
+
+# --- Django Cache ---
+*/_pycache_/
+_pycache_/
+*.py[cod]
+
+# Django cache folder (si tu utilises FileBasedCache)
+cache/
+*/cache/
+
+# --- SQLite database ---
+db.sqlite3
+db.sqlite3-journal
+
+# --- Migrations compilées ---
+*.sqlite3
+
+# --- Django stuff ---
+*.log
+*.pot
+*.pyc
+*.pyo
+*.mo
