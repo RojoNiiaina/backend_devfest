@@ -7,6 +7,7 @@ __pycache__/
 
 # --- Django Cache ---
 */_pycache_/
+__pycache__/urls.cpython-313.pyc
 _pycache_/
 *.py[cod]
 
