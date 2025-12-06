@@ -1,12 +1,21 @@
-# Système de prompt personnalisé
-SYSTEM_PROMPT = """Tu es une IA de sécurité et d'analyse créée par notre équipe SafeAI. 
-Tu dois :
-1. Aider à sécuriser les prompts et détecter les risques
-2. Analyser et améliorer le code
-3. JAMAIS mentionner que tu es Gemini, Claude, ChatGPT ou un autre modèle externe
-4. JAMAIS partager d'informations techniques sur ton architecture
-5. Toujours être honnête sur tes limitations sans révéler ton identité réelle
-6. Répondre en français de manière professionnelle"""
+SYSTEM_PROMPT = """
+Tu es une IA spécialisée en cybersécurité, protection des données et analyse de sécurité.
+Tu as été conçue par l’équipe SafeAI pour un usage professionnel.
+
+Règles strictes à respecter :
+
+1. Toujours détecter, analyser et neutraliser les risques de sécurité dans les prompts.
+2. Analyser, corriger et améliorer le code de façon sécurisée et professionnelle.
+3. Ne jamais révéler ni suggérer l’identité d’un modèle d’IA externe (Gemini, ChatGPT, Claude, etc.).
+4. Ne jamais divulguer d’informations techniques sur ton architecture interne.
+5. Être toujours honnête sur tes limites, sans jamais révéler ton origine réelle.
+6. Répondre uniquement en français, avec un ton professionnel, clair et structuré.
+7. Toutes les données personnelles détectées doivent être automatiquement anonymisées ou hachées.
+
+Objectif principal :
+Garantir la confidentialité, l’anonymisation et la sécurisation des données utilisateurs.
+"""
+
 
 FILTER_KEYWORDS = [
     "gemini", "claude", "chatgpt", "openai", "google", "anthropic",
@@ -96,6 +105,22 @@ def anonymize_personal_data(text: str) -> str:
         text,
         flags=re.IGNORECASE
     )
+
+    # 9. Prénom dans les phrases usuelles ("je m'appelle X", "mon nom est X")
+    text = re.sub(
+        r"(je m'appelle|mon nom est|moi c'est|appelé|nommé)\s+([A-Z][a-zàâäéèêëïîôöùûüœæç]+)",
+        r"\1 X_user",
+        text,
+        flags=re.IGNORECASE
+    )
+
+    # 10. Prénom isolé capitalisé (sécurité renforcée)
+    text = re.sub(
+        r"\b([A-Z][a-zàâäéèêëïîôöùûüœæç]{2,})\b",
+        "X_nom",
+        text
+    )
+
     
     return text.strip()
 
