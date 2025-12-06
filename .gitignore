@@ -1,1 +1,26 @@
+# --- Environnement ---
 .env
+
+__pycache__/
+*.pyc
+
+
+
+# --- Django Cache ---
+*/_pycache_/
+__pycache__/urls.cpython-313.pyc
+_pycache_/
+*.py[cod]
+
+# Django cache folder (si tu utilises FileBasedCache)
+cache/
+*/cache/
+
+# --- SQLite database ---
+db.sqlite3
+db.sqlite3-journal
+
+# --- Django logs et fichiers temporaires ---
+*.log
+*.pot
+*.mo

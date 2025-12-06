@@ -31,6 +31,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'localhost:8000', '127.0.0.1:8000']
 
+# Gemini Configuration
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+
 
 # Application definition
 
@@ -47,6 +51,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'users',
     'api',
+    'prompt',
+    'code_analysis',
 
     # ✅ Allauth SEUL
     'django.contrib.sites',
