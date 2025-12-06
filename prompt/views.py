@@ -8,12 +8,11 @@ from django.contrib.auth.decorators import login_required
 
 
 @csrf_exempt
-@login_required
 def ai_prompt(request):
     if request.method == "POST":
         data = json.loads(request.body)
         text = data.get("text")
-        ftype = data.get("type_functionality", "F2")
+        ftype = data.get("type_functionality", "F1")
 
         clean_text = sanitize_prompt(text)
 
